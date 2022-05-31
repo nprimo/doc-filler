@@ -25,7 +25,7 @@ def create_context(var_input_path):
     return df.to_dict(orient='records')[0]
 
 
-def main(fname):
+def main(fname='res.docx'):
     template_path = get_doc_listdir(".*docx$")[0]
     var_input_path = get_doc_listdir(".*xlsx$")[0]
     context = create_context(var_input_path)
@@ -37,4 +37,4 @@ if __name__ == "__main__":
         fname = sys.argv[1]
         main(fname)
     else:
-        print("Launch with 1 arg: the name of filled in doc")
+        main()
