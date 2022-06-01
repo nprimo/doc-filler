@@ -20,17 +20,20 @@ def get_doc_listdir(doc_type, path=path_input):
 	return [fname for fname in fname_list if re.match(doc_type, fname)]
 
 
-def create_context(var_input_path):
+def create_context_list(var_input_path):
     df = pd.read_excel(path_input + var_input_path)
-    return df.to_dict(orient='records')[0]
+    return df.to_dict(orient='records')
 
 
-def main(fname='res.docx'):
+def main(fname='res_{}.docx'):
     template_path = get_doc_listdir(".*docx$")[0]
     var_input_path = get_doc_listdir(".*xlsx$")[0]
-    context = create_context(var_input_path)
-    render_doc(path_input + template_path, context, fname)
-    print("Doc filled in ...")
+    context_list = create_context_list(var_input_path)
+    i = 0
+    for context in context_list:
+        render_doc(path_input + template_path, context, fname.format(i))
+        i += 1
+
 
 if __name__ == "__main__":
     if (len(sys.argv) == 2):
@@ -38,3 +41,4 @@ if __name__ == "__main__":
         main(fname)
     else:
         main()
+    print("Doc filled in ...")
